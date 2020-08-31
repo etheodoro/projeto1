@@ -5,6 +5,18 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(
+			name = "findUserByNameByProc",
+			procedureName = "GetUserByName",
+			parameters = {
+				@StoredProcedureParameter(
+						name = "name",
+						type = String.class,
+						mode = ParameterMode.IN
+						) }
+			,resultClasses = User.class)
+})
 public class User {
 
 	@Id
@@ -15,7 +27,15 @@ public class User {
 	@ManyToMany
 	private Set<Role> roles;
 	
-	
+	public User() {
+	}
+
+	public User(String name, String email) {
+		super();
+		this.name = name;
+		this.email = email;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
